@@ -31,14 +31,11 @@ export const Breadcrumb = (props: any) => {
       </div>
       {navData.map((nav: any, i: any) => {
         return (
-          <div className="flex flex-shrink-0 items-center gap-1">
+          <div key={i} className="flex flex-shrink-0 items-center gap-1">
             <div className="w-4">
               <Chevron />
             </div>
-            <div
-              key={i}
-              className="flex-shrink-0 font-semibold leading-tight text-indigo-12"
-            >
+            <div className="flex-shrink-0 font-semibold leading-tight text-indigo-12">
               {nav.label}
             </div>
           </div>

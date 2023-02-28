@@ -133,6 +133,11 @@ module.exports = {
       lg: "64rem", // 1024
       "max-lg": { max: "63.9375rem" },
       xl: "80rem", // 1280
+
+      xshort: { raw: "(min-height: 640px)" },
+      short: { raw: "(min-height: 768px)" },
+      tall: { raw: "(min-height: 860px)" },
+      xtall: { raw: "(min-height: 960px)" },
     },
     extend: {
       spacing: {

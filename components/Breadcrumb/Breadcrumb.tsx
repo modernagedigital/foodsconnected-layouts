@@ -13,8 +13,8 @@ const Chevron = () => {
   return (
     <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M5.79289 3.29289C6.18342 2.90237 6.81658 2.90237 7.20711 3.29289L11.2071 7.29289C11.5976 7.68342 11.5976 8.31658 11.2071 8.70711L7.20711 12.7071C6.81658 13.0976 6.18342 13.0976 5.79289 12.7071C5.40237 12.3166 5.40237 11.6834 5.79289 11.2929L9.08579 8L5.79289 4.70711C5.40237 4.31658 5.40237 3.68342 5.79289 3.29289Z"
         fill="#5EB0EF"
       />
@@ -26,13 +26,13 @@ export const Breadcrumb = (props: any) => {
   const { navData } = props;
   return (
     <div className="flex items-center gap-1">
-      <div className="w-4">
+      <div className="h-4 w-4">
         <HomeIcon />
       </div>
       {navData.map((nav: any, i: any) => {
         return (
           <div key={i} className="flex flex-shrink-0 items-center gap-1">
-            <div className="w-4">
+            <div className="h-4 w-4">
               <Chevron />
             </div>
             <div className="flex-shrink-0 font-semibold leading-tight text-indigo-12">

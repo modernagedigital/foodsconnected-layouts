@@ -1,6 +1,10 @@
 import { Breadcrumb } from "components";
 
-export const PageTitle = (props: any) => {
+type PageTitleProps = {
+  title?: string;
+};
+
+export const PageTitle = (props: PageTitleProps) => {
   const { title = "Supplier List" } = props;
   return (
     <div className="flex items-center justify-between">

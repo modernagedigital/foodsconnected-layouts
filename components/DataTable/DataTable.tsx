@@ -1,6 +1,11 @@
 import { ReactNode } from "react";
 import { JsxElement } from "typescript";
 import clsx from "clsx";
+import Color from "colorjs.io";
+
+let primaryColor = new Color("#CC0000");
+
+console.log(primaryColor.toGamut());
 
 const Icon_File = (props: any) => {
   const { className } = props;
@@ -120,7 +125,7 @@ export const DataTable = () => {
       <h3 className="mt-8">Cell Heading</h3>
       <Cell_Heading />
       <Cell_Heading doubled />
-      <h3 className="mt-6">Cell Value</h3>
+      <h3 className="bg-testcolor mt-6">Cell Value</h3>
       <Cell_Value />
       <Cell_Value doubled />
     </div>

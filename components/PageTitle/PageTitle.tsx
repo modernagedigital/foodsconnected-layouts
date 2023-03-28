@@ -14,7 +14,7 @@ export const PageTitle = (props: PageTitleProps) => {
           {title}
         </h1>
       </div>
-      <button className="flex h-14 w-fit items-center rounded-md bg-primary-brand py-5xs px-2xs text-center font-display text-lg font-bold text-white">
+      <button className="flex h-14 w-fit items-center rounded-md bg-primary py-5xs px-2xs text-center font-display text-lg font-bold text-white">
         Actions
       </button>
     </div>

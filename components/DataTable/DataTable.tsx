@@ -305,7 +305,7 @@ export const DataTable = () => {
 
       <SectionDivider>Data List Row</SectionDivider>
       <div
-        className="-mr-[calc(var(--size-xs-s))] -ml-[var(--size-xs-s)] overflow-hidden"
+        className="-mr-[calc(var(--size-xs-s))] -ml-[var(--size-xs-s)] overflow-x-scroll"
         data-listrow
       >
         <div className="relative flex h-[3000px] w-fit flex-col gap-2 pb-6 pl-xs-s">

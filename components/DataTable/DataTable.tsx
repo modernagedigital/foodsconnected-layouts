@@ -1,11 +1,11 @@
-import { ReactNode } from "react";
+import { ReactNode, useRef } from "react";
 import { JsxElement } from "typescript";
 import clsx from "clsx";
-import Color from "colorjs.io";
-
-let primaryColor = new Color("#CC0000");
-
-console.log(primaryColor.toGamut());
+import { Badge } from "components";
+import { useIsomorphicLayoutEffect } from "usehooks-ts";
+import { gsap } from "gsap-trial";
+import ScrollTrigger from "gsap-trial/dist/ScrollTrigger";
+gsap.registerPlugin(ScrollTrigger);
 
 const Icon_File = (props: any) => {
   const { className } = props;
@@ -28,16 +28,20 @@ type CellWrapperProps = {
   headerSlot?: ReactNode;
   contentSlot?: ReactNode;
   isTall?: boolean;
+  width?: number;
 };
 
 const CellWrapper = (props: CellWrapperProps) => {
-  const { headerSlot, contentSlot, isTall } = props;
+  const { headerSlot, contentSlot, isTall, width } = props;
   return (
     <div
       className={clsx([
-        "flex w-fit flex-col justify-center gap-1 bg-slate-200 px-4 py-2",
+        "flex w-fit shrink-0 flex-col justify-center gap-1 px-4 py-2",
         isTall ? "h-16" : "h-12",
       ])}
+      style={{
+        width: width && width,
+      }}
     >
       {headerSlot && (
         <div className="flex min-h-5 items-center">{headerSlot}</div>
@@ -49,38 +53,36 @@ const CellWrapper = (props: CellWrapperProps) => {
   );
 };
 
-type CellProps = {
-  doubled?: boolean;
-};
 type Cell_HeadingProps = {
-  doubled?: boolean;
+  heading: string;
+  secondaryLabel?: string;
+  width?: number;
 };
 
 const Cell_Heading = (props: Cell_HeadingProps) => {
-  const { doubled } = props;
+  const { secondaryLabel, width, heading } = props;
   return (
     <>
       <CellWrapper
-        isTall={doubled}
+        isTall={secondaryLabel ? true : false}
+        width={width}
         headerSlot={
           <>
-            <h4 className="font-text text-sm font-semibold leading-tighter">
-              Value
+            <h4 className="font-text text-sm font-semibold leading-tighter text-type-strong">
+              {heading}
             </h4>
           </>
         }
         contentSlot={
-          doubled ? (
+          secondaryLabel && (
             <>
               <div className="flex gap-1">
                 <Icon_File className="h-4 w-4" />
-                <div className="font-text text-xs text-slate-400">
-                  Secondary label
+                <div className="font-text text-xs text-type">
+                  {secondaryLabel}
                 </div>
               </div>
             </>
-          ) : (
-            false
           )
         }
       />
@@ -88,46 +90,237 @@ const Cell_Heading = (props: Cell_HeadingProps) => {
   );
 };
 
-const Cell_Value = (props: CellProps) => {
-  const { doubled } = props;
+type Cell_ValueProps = {
+  doubled?: boolean;
+  heading?: string;
+  value: string;
+  width?: number;
+};
+
+const Cell_Value = (props: Cell_ValueProps) => {
+  const { doubled, heading, value, width } = props;
   return (
     <>
       <CellWrapper
-        isTall={doubled}
+        isTall={heading ? true : false}
+        width={width}
         headerSlot={
-          <>
-            <h4 className="font-text text-xs font-semibold text-slate-11">
-              Heading label
-            </h4>
-          </>
+          heading && (
+            <>
+              <h4 className="font-text text-xs font-semibold text-type">
+                {heading}
+              </h4>
+            </>
+          )
         }
         contentSlot={
-          doubled ? (
-            <>
-              <div className="flex gap-1">
-                <div className="font-text text-sm text-slate-12">
-                  Secondary label
-                </div>
-              </div>
-            </>
-          ) : (
-            false
-          )
+          <>
+            <div className="flex gap-1">
+              <div className="font-text text-sm text-type-strong">{value}</div>
+            </div>
+          </>
         }
       />
     </>
   );
 };
 
-export const DataTable = () => {
+type Cell_BadgeProps = {
+  doubled?: boolean;
+  heading?: string;
+  value: string;
+  status?: "info" | "danger" | "warning" | "success";
+  width?: number;
+};
+
+const Cell_Badge = (props: Cell_BadgeProps) => {
+  const { doubled, heading, status = "info", value, width } = props;
   return (
-    <div className="flex flex-col gap-6">
-      <h3 className="mt-8">Cell Heading</h3>
-      <Cell_Heading />
-      <Cell_Heading doubled />
-      <h3 className="bg-testcolor mt-6">Cell Value</h3>
-      <Cell_Value />
-      <Cell_Value doubled />
+    <>
+      <CellWrapper
+        isTall={heading ? true : false}
+        width={width}
+        headerSlot={
+          heading && (
+            <>
+              <h4 className="font-text text-xs font-semibold text-slate-11">
+                {heading}
+              </h4>
+            </>
+          )
+        }
+        contentSlot={
+          <>
+            <Badge size="md" text={value} status={status} />
+          </>
+        }
+      />
+    </>
+  );
+};
+
+const SectionDivider = ({ children }: any) => (
+  <h3 className="ui-typography-title3 mt-6 font-semibold">{children}</h3>
+);
+
+type DataRowProps = {
+  heading?: string;
+  secondary?: string;
+  version?: string;
+  statusLabel?: "Active" | "Inactive";
+  department?: string;
+  creator?: string;
+  updated?: string;
+  due?: string;
+  complianceLabel?: "Compliant" | "Non compliant";
+  responses?: string;
+};
+
+const DataRow = (props: DataRowProps) => {
+  const {
+    heading = "Heading",
+    secondary = "Secondary",
+    version = "1.0",
+    statusLabel = "Active",
+    department = "Dept",
+    creator = "Steve",
+    updated = "22/02/2022",
+    due = "1 week",
+    complianceLabel = "Compliant",
+    responses,
+  } = props;
+  return (
+    <div className="flex h-24 w-[2740px] shrink-0 items-center gap-4 rounded border border-neutral-6 bg-neutral-1 p-4 shadow-lg">
+      <div className="shrink-0">
+        <Cell_Heading
+          width={200}
+          heading={heading}
+          secondaryLabel={secondary}
+        />
+      </div>
+      <Cell_Badge heading="Version" value={version} width={80} />
+      <Cell_Badge
+        heading="Status"
+        value={statusLabel}
+        status={statusLabel == "Active" ? "success" : "danger"}
+        width={100}
+      />
+      <Cell_Value heading="Department" value={department} width={100} />
+      <Cell_Value heading="Creator" value={creator} width={120} />
+      <Cell_Value heading="Updated" value={updated} width={100} />
+      <Cell_Value heading="Due" value={due} width={80} />
+      <Cell_Badge
+        heading="Compliance"
+        value={complianceLabel}
+        status={complianceLabel == "Compliant" ? "success" : "danger"}
+        width={150}
+      />
+      <Cell_Value heading="Cell heading" value="Cell value" />
+      <Cell_Value heading="Cell heading" value="Cell value" />
+      <Cell_Value heading="Cell heading" value="Cell value" />
+      <Cell_Value heading="Cell heading" value="Cell value" />
+      <Cell_Value heading="Cell heading" value="Cell value" />
+      <Cell_Value heading="Cell heading" value="Cell value" />
+      <Cell_Value heading="Cell heading" value="Cell value" />
+      <Cell_Value heading="Cell heading" value="Cell value" />
+      <Cell_Value heading="Cell heading" value="Cell value" />
+      <Cell_Value heading="Cell heading" value="Cell value" />
+      <Cell_Value heading="Cell heading" value="Cell value" />
+      <Cell_Value heading="Cell heading" value="Cell value" />
+      <Cell_Value heading="Cell heading" value="Cell value" />
+      <Cell_Value heading="Cell heading" value="Cell value" />
+      <Cell_Value heading="Cell heading" value="Cell value" />
+    </div>
+  );
+};
+
+const tableData = [
+  {
+    heading: "Heading",
+    secondary: "Secondary label",
+    version: "1.0",
+    statusLabel: "Active",
+    department: "Shipping",
+    creator: "Steven Jones",
+    updated: "12/05/22",
+    due: "14/06/23",
+    complianceLabel: "Non compliant",
+    responses: "None",
+  },
+  {
+    heading: "Heading",
+    secondary: "Secondary label",
+    version: "1.0",
+    statusLabel: "Active",
+    department: "Shipping",
+    creator: "Steven Jones",
+    updated: "12/05/22",
+    due: "14/06/23",
+    complianceLabel: "Non compliant",
+    responses: "None",
+  },
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+];
+
+export const DataTable = () => {
+  // const comp = useRef(null);
+  // useIsomorphicLayoutEffect(() => {
+  //   let ctx = gsap.context(() => {
+  //     const tl = gsap.timeline({
+  //       scrollTrigger: {
+  //         trigger: "[data-listrow]",
+  //         markers: true,
+  //         start: "top center",
+  //         scroller: "[data-contentPane]",
+  //       },
+  //     });
+  //   }, comp);
+  //   return () => ctx.revert();
+  // }, []);
+  return (
+    <div className="flex flex-col gap-6 pb-40">
+      <SectionDivider>Cell Heading</SectionDivider>
+      <Cell_Heading heading="Table heading" />
+      <Cell_Heading heading="Table heading" secondaryLabel="Secondary label" />
+      <SectionDivider>Cell Value</SectionDivider>
+      <Cell_Value value="Cell value" />
+      <Cell_Value heading="Cell heading" value="Cell value" />
+      <SectionDivider>Cell Badge</SectionDivider>
+      <Cell_Badge value="Badge" status="success" />
+      <Cell_Badge value="Badge" heading="Badged cell" status="success" />
+
+      <SectionDivider>Data List Row</SectionDivider>
+      <div
+        className="-mr-[calc(var(--size-xs-s))] -ml-[var(--size-xs-s)] overflow-hidden"
+        data-listrow
+      >
+        <div className="relative flex h-[3000px] w-fit flex-col gap-2 pb-6 pl-xs-s">
+          <div data-header className="sticky top-0 bg-red-500">
+            Header
+          </div>
+          {tableData.map((row, i) => {
+            // @ts-ignore
+            return <DataRow key={i} {...row} />;
+          })}
+          <div data-footer className="bg-blue-500">
+            Footer
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

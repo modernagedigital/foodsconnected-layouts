@@ -7,3 +7,4 @@ export { CustomViews } from "./CustomViews/CustomViews";
 export { PageTitle } from "./PageTitle/PageTitle";
 export { Breadcrumb } from "./Breadcrumb/Breadcrumb";
 export { DataTable } from "./DataTable/DataTable";
+export { Badge } from "./Badge";

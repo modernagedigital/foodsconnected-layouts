@@ -238,7 +238,10 @@ export const AppShell = ({ children }: any) => {
 
           <SidebarContent sidebarOpen={sidebarOpen} />
         </div>
-        <div className="h-full flex-1 overflow-x-hidden overflow-y-scroll p-xs-s pl-[calc(80px+var(--size-xs-s))] lg:p-xs-s">
+        <div
+          className="h-full flex-1 overflow-x-hidden overflow-y-scroll p-xs-s pl-[calc(80px+var(--size-xs-s))] lg:p-xs-s"
+          data-contentpane
+        >
           {children}
         </div>
       </div>

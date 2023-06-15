@@ -1,8 +1,11 @@
+"use client";
+
 import { useState } from "react";
 import { clsx } from "clsx";
 import { useMediaQuery } from "usehooks-ts";
 import { useLayoutEffect } from "react";
 import { text } from "stream/consumers";
+import { useIsomorphicLayoutEffect } from "usehooks-ts";
 
 // ICONS
 const ChevronIcon = () => {
@@ -196,7 +199,7 @@ export const AppShell = ({ children }: any) => {
   const [sidebarOpen, toggleSidebarOpen] = useState(true);
   const [buttonClicked, toggleButtonClicked] = useState(false);
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (!buttonClicked) {
       if (matches) {
         toggleSidebarOpen(false);

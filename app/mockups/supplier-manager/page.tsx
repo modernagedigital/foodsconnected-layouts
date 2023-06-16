@@ -14,10 +14,8 @@ export default function SupplierManager() {
       <AppShell>
         <div className="space-y-2xs-xs">
           <PageTitle />
-          <SecondaryNav breakP="md" />
-          <Kpis />
-          <FilterRow />
           <CustomViews />
+          <FilterRow />
           <Table />
         </div>
       </AppShell>

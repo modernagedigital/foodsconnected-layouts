@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <main className="p-10">
       <Link
-        href="/supplier-manager"
+        href="/mockups/supplier-manager"
         className="block w-fit p-4 font-bold text-blue-700 hover:underline"
       >
         Supplier Manager

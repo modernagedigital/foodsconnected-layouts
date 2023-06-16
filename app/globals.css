@@ -174,6 +174,41 @@
   --yellow10: hsl(50, 100%, 48.5%);
   --yellow11: hsl(42, 100%, 29%);
   --yellow12: hsl(40, 55%, 13.5%);
+
+  --primary: var(--blue-10);
+  --primary-tint: var(--blue-6);
+  --primary-shade: var(--blue-11);
+
+  --accent: var(--indigo-10);
+  --accent-tint: var(--indigo-7);
+
+  --action: var();
+
+  --highlight: var();
+
+  --type-heading: var();
+  /* "type": {
+    "heading": {
+      "value": "{indigo.11}",
+      "type": "color"
+    },
+    "subheading": {
+      "value": "{blue.11}",
+      "type": "color"
+    },
+    "light": {
+      "value": "{slate.9}",
+      "type": "color"
+    },
+    "base": {
+      "value": "{slate.11}",
+      "type": "color"
+    },
+    "strong": {
+      "value": "{slate.12}",
+      "type": "color"
+    }
+  }, */
 }
 
 @layer base {
